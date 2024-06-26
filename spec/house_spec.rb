@@ -8,7 +8,7 @@ describe House do
         rhyme = house.rhyme
 
         test_file = File.read('test_text.txt')
-
+        
         expect(rhyme).to match(test_file)
     end
 
@@ -18,6 +18,7 @@ describe House do
         # random_rhyme should be an array of each line/paragraph
         expect(random_rhyme.length).to eq 12
 
+        # check that class fulfills 'same random order on each line' requirement
         prev_line = ""
         random_rhyme.each do |line|
             expect(line).to start_with "This is"
@@ -27,6 +28,9 @@ describe House do
             prev_line = line.copy.delete_prefix("This is ")
         end
 
-        
+        # check all lines of the rhyme are included
+        File.readlines('house_components.txt').each do |line|
+            expect(random_rhyme).to include(line)
+        end
     end
 end
