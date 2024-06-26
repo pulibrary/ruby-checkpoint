@@ -9,10 +9,6 @@ describe House do
 
         test_file = File.read('test_text.txt')
 
-        # puts "Test File:\n" + test_file
-        # puts "-" * 80
-        # puts "Rhyme:\n" + rhyme
-        
         expect(rhyme).to match(test_file)
     end
 end
