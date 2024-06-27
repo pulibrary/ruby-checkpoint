@@ -10,27 +10,18 @@ class House
     end
 
     def random_rhyme
-        lines_array = File.readlines(file)
+        lines_array = File.readlines(file).map(&:chomp)
         indexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].shuffle
-
-        rhyme = ""
-        past_line = ""
-        indexes.each do |index|
-            rhyme << "This is " + lines_array[index]
-
-            # need to add a period somewhere
-            # can probably combine these two into if and else
-            if past_line.empty?
-                rhyme << "."
+        rhyme = []
+        indexes.each_with_index do |val, index|
+            if index == 0
+                # first line: no need to append previous rhyme
+                rhyme[index] = "This is " + lines_array[val] + ".\n"
+            else
+                # subsequent lines: append previous rhyme
+                rhyme[index] = "This is " + lines_array[val] + " " + rhyme[index - 1].delete_prefix("This is ")
             end
-
-            if !past_line.empty?
-                rhyme << " " + past_line + "\n"
-            end
-
-            past_line = rhyme.copy.delete_prefix("This is ")
         end
-
         return rhyme
     end
 end
