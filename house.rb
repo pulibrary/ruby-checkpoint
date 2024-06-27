@@ -24,4 +24,21 @@ class House
         end
         return rhyme
     end
+
+    def semi_random_rhyme
+        lines_array = File.readlines(file).map(&:chomp)
+        indexes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].shuffle
+        indexes.unshift(0)
+        rhyme = []
+        indexes.each_with_index do |val, index|
+            if index == 0
+                # first line must be this
+                rhyme[index] = "This is the house that Jack built.\n"
+            else
+                # subsequent lines: append previous rhyme
+                rhyme[index] = "This is " + lines_array[val] + " " + rhyme[index - 1].delete_prefix("This is ")
+            end
+        end
+        return rhyme
+    end
 end
